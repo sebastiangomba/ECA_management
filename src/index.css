@@ -1,0 +1,48 @@
+:root {
+  color-scheme: dark;
+  --bg: #0d0f0f;
+  --panel-bg: rgba(24, 29, 27, 0.92);
+  --field-bg: #111615;
+  --border-color: rgba(255, 255, 255, 0.09);
+  --text-main: #eef3ef;
+  --text-dim: #9ba6a0;
+  --green-300: #57d66f;
+  --green-500: #2e7d32;
+  --green-700: #1b5e20;
+  --amber-300: #f6c453;
+  --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  font-family:
+    'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-main);
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
