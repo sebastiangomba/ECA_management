@@ -45,7 +45,7 @@ export function RecepcionPage({
         </div>
       </header>
 
-      <div className="content-grid">
+      <div>
         <article className="panel form-panel">
           <div className="panel-heading section-border">
             <h2 className="with-icon">
@@ -58,7 +58,9 @@ export function RecepcionPage({
             <Field label="Reciclador *" icon="user">
               <select
                 value={selectedRecycler}
-                onChange={(event) => onSelectedRecyclerChange(event.target.value)}
+                onChange={(event) =>
+                  onSelectedRecyclerChange(event.target.value)
+                }
               >
                 <option value="">Seleccione el reciclador</option>
                 {recyclers.map((recycler) => (
@@ -86,7 +88,9 @@ export function RecepcionPage({
             <Field label="Tipo de Material *" icon="package">
               <select
                 value={selectedMaterial}
-                onChange={(event) => onSelectedMaterialChange(event.target.value)}
+                onChange={(event) =>
+                  onSelectedMaterialChange(event.target.value)
+                }
               >
                 <option value="">Seleccione el tipo de material</option>
                 {materialTypes.map((material) => (
@@ -150,32 +154,6 @@ export function RecepcionPage({
             </button>
           </form>
         </article>
-
-        <aside className="stacked-panels">
-          <article className="panel side-panel">
-            <h3>Proceso de Verificación</h3>
-            <ul className="check-list">
-              <li>
-                <Icon name="check" /> El operador registra el peso
-              </li>
-              <li>
-                <Icon name="check" /> El reciclador valida visualmente
-              </li>
-              <li>
-                <Icon name="check" /> Sistema genera tiquete inmediato
-              </li>
-            </ul>
-          </article>
-
-          <article className="panel side-panel">
-            <h3>Controles del Sistema</h3>
-            <ul className="bullet-list">
-              <li>Guardado automático al registrar</li>
-              <li>No permite edición posterior</li>
-              <li>Peso capturado de báscula calibrada</li>
-            </ul>
-          </article>
-        </aside>
       </div>
     </section>
   );

@@ -2,9 +2,7 @@
   display: grid;
   grid-template-columns: 18rem 1fr;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top right, rgba(56, 142, 60, 0.18), transparent 28%),
-    linear-gradient(180deg, #121715 0%, #0d0f0f 100%);
+  background: var(--app-shell-bg);
 }
 
 .auth-shell {
@@ -13,17 +11,14 @@
   min-height: 100vh;
   padding: 2rem;
   gap: 1.5rem;
-  background:
-    radial-gradient(circle at top left, rgba(87, 214, 111, 0.18), transparent 26%),
-    radial-gradient(circle at bottom right, rgba(246, 196, 83, 0.14), transparent 22%),
-    linear-gradient(180deg, #121715 0%, #0d0f0f 100%);
+  background: var(--auth-shell-bg);
 }
 
 .auth-hero,
 .auth-card {
   border: 1px solid var(--border-color);
   border-radius: 1.75rem;
-  background: rgba(14, 18, 17, 0.84);
+  background: var(--surface-elevated);
   backdrop-filter: blur(16px);
 }
 
@@ -96,7 +91,7 @@
   gap: 0.5rem;
   padding: 0.35rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--soft-button-bg);
 }
 
 .auth-toggle-button {
@@ -180,7 +175,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, rgba(26, 26, 26, 0.98), rgba(14, 16, 15, 0.98));
+  background: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
   backdrop-filter: blur(12px);
 }
@@ -200,7 +195,7 @@
 
 .brand p {
   margin-top: 0.35rem;
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--brand-subtext);
   font-size: 0.84rem;
 }
 
@@ -229,14 +224,14 @@
 
 .nav-item:hover,
 .nav-item:focus-visible {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--nav-hover-bg);
   color: var(--text-main);
   outline: none;
 }
 
 .nav-item.active {
-  background: rgba(27, 94, 32, 0.86);
-  color: #fff;
+  background: var(--nav-active-bg);
+  color: var(--nav-active-color);
   border-left-color: var(--green-300);
 }
 
@@ -251,24 +246,30 @@
   height: 1.35rem;
 }
 
+.sidebar-bottom {
+  display: grid;
+  gap: 1rem;
+  margin-top: auto;
+}
+
 .status-card {
   display: flex;
   gap: 0.9rem;
-  margin: auto 1rem 1rem;
+  margin: 0 1rem;
   padding: 1rem;
   border: 1px solid var(--border-color);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--status-card-bg);
 }
 
 .status-card.online {
   border-color: rgba(67, 160, 71, 0.45);
-  background: rgba(27, 94, 32, 0.2);
+  background: var(--status-online-bg);
 }
 
 .status-card.offline {
   border-color: rgba(220, 38, 38, 0.42);
-  background: rgba(127, 29, 29, 0.18);
+  background: var(--status-offline-bg);
 }
 
 .status-card strong,
@@ -283,11 +284,11 @@
 }
 
 .session-card {
-  margin: 0 1rem 1rem;
+  margin: 0 1rem;
   padding: 1rem;
   border: 1px solid rgba(87, 214, 111, 0.2);
   border-radius: 1rem;
-  background: rgba(87, 214, 111, 0.06);
+  background: var(--session-card-bg);
 }
 
 .session-label {
@@ -305,28 +306,59 @@
   font-size: 0.78rem;
 }
 
+.footer-view-actions {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.theme-toggle-button,
+.footer-nav-button,
 .logout-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.65rem;
   width: 100%;
-  margin-top: 1rem;
   padding: 0.85rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--soft-button-bg);
   color: var(--text-main);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 180ms ease, border-color 180ms ease;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
 }
 
+.footer-nav-button.active {
+  border-color: rgba(87, 214, 111, 0.45);
+  background: var(--soft-button-active-bg);
+  color: var(--soft-button-active-color);
+}
+
+.theme-toggle-button {
+  margin: 0 1rem;
+  width: auto;
+  justify-self: start;
+  justify-content: flex-start;
+  padding: 0.62rem 0.85rem;
+  border-radius: 0.85rem;
+  font-size: 0.88rem;
+}
+
+.logout-button {
+  margin-top: 1rem;
+}
+
+.theme-toggle-button:hover,
+.theme-toggle-button:focus-visible,
+.footer-nav-button:hover,
+.footer-nav-button:focus-visible,
 .logout-button:hover,
 .logout-button:focus-visible {
   border-color: rgba(87, 214, 111, 0.45);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--soft-button-hover-bg);
   outline: none;
 }
 
@@ -369,7 +401,7 @@
   border: 1px solid var(--border-color);
   border-radius: 1.4rem;
   background: var(--panel-bg);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  box-shadow: var(--panel-shadow);
 }
 
 .section-border {
@@ -1392,7 +1424,12 @@
   }
 
   .status-card {
-    margin-top: 1rem;
+    margin: 0 0.7rem;
+  }
+
+  .theme-toggle-button,
+  .session-card {
+    margin-inline: 0.7rem;
   }
 
   .view {

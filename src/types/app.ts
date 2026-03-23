@@ -113,7 +113,9 @@ export type IconName =
   | "mail"
   | "lock"
   | "logout"
-  | "idCard";
+  | "idCard"
+  | "sun"
+  | "moon";
 
 export type NavigationItem = {
   id: ViewId;
