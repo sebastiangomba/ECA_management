@@ -10,6 +10,28 @@
   --green-500: #2e7d32;
   --green-700: #1b5e20;
   --amber-300: #f6c453;
+  --app-shell-bg:
+    radial-gradient(circle at top right, rgba(56, 142, 60, 0.18), transparent 28%),
+    linear-gradient(180deg, #121715 0%, #0d0f0f 100%);
+  --auth-shell-bg:
+    radial-gradient(circle at top left, rgba(87, 214, 111, 0.18), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(246, 196, 83, 0.14), transparent 22%),
+    linear-gradient(180deg, #121715 0%, #0d0f0f 100%);
+  --surface-elevated: rgba(14, 18, 17, 0.84);
+  --sidebar-bg: linear-gradient(180deg, rgba(26, 26, 26, 0.98), rgba(14, 16, 15, 0.98));
+  --brand-subtext: rgba(255, 255, 255, 0.78);
+  --nav-hover-bg: rgba(255, 255, 255, 0.05);
+  --nav-active-bg: rgba(27, 94, 32, 0.86);
+  --nav-active-color: #fff;
+  --status-card-bg: rgba(255, 255, 255, 0.03);
+  --status-online-bg: rgba(27, 94, 32, 0.2);
+  --status-offline-bg: rgba(127, 29, 29, 0.18);
+  --session-card-bg: rgba(87, 214, 111, 0.06);
+  --soft-button-bg: rgba(255, 255, 255, 0.04);
+  --soft-button-hover-bg: rgba(255, 255, 255, 0.08);
+  --soft-button-active-bg: rgba(27, 94, 32, 0.86);
+  --soft-button-active-color: #fff;
+  --panel-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
   font-family:
     'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif;
@@ -19,6 +41,42 @@
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-main);
   background: var(--bg);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #edf3ee;
+  --panel-bg: rgba(255, 255, 255, 0.86);
+  --field-bg: #fcfffc;
+  --border-color: rgba(23, 33, 28, 0.12);
+  --text-main: #172019;
+  --text-dim: #5d6a62;
+  --green-300: #269947;
+  --green-500: #2e7d32;
+  --green-700: #215f26;
+  --amber-300: #d79510;
+  --app-shell-bg:
+    radial-gradient(circle at top right, rgba(56, 142, 60, 0.12), transparent 28%),
+    linear-gradient(180deg, #f4f8f4 0%, #e5ede6 100%);
+  --auth-shell-bg:
+    radial-gradient(circle at top left, rgba(87, 214, 111, 0.12), transparent 26%),
+    radial-gradient(circle at bottom right, rgba(246, 196, 83, 0.1), transparent 22%),
+    linear-gradient(180deg, #f4f8f4 0%, #e5ede6 100%);
+  --surface-elevated: rgba(255, 255, 255, 0.8);
+  --sidebar-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(238, 244, 239, 0.98));
+  --brand-subtext: rgba(255, 255, 255, 0.9);
+  --nav-hover-bg: rgba(33, 95, 38, 0.08);
+  --nav-active-bg: rgba(33, 95, 38, 0.14);
+  --nav-active-color: #215f26;
+  --status-card-bg: rgba(255, 255, 255, 0.65);
+  --status-online-bg: rgba(33, 95, 38, 0.1);
+  --status-offline-bg: rgba(185, 28, 28, 0.08);
+  --session-card-bg: rgba(33, 95, 38, 0.08);
+  --soft-button-bg: rgba(255, 255, 255, 0.72);
+  --soft-button-hover-bg: rgba(33, 95, 38, 0.08);
+  --soft-button-active-bg: rgba(33, 95, 38, 0.14);
+  --soft-button-active-color: #215f26;
+  --panel-shadow: 0 20px 48px rgba(20, 33, 25, 0.08);
 }
 
 * {
@@ -34,6 +92,9 @@ body,
 
 body {
   min-height: 100vh;
+  color: var(--text-main);
+  background: var(--bg);
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 button,

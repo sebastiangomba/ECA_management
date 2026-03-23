@@ -36,6 +36,10 @@ import type {
 } from "./types/app";
 import { downloadCsv } from "./utils/format";
 
+type ThemeMode = "dark" | "light";
+
+const themeStorageKey = "eca-management-theme";
+
 function readTransactionsFromStorage() {
   const stored = localStorage.getItem(storageKey);
 
@@ -86,6 +90,11 @@ function readStoredSession() {
     localStorage.removeItem(authSessionStorageKey);
     return null;
   }
+}
+
+function readStoredTheme(): ThemeMode {
+  const storedTheme = localStorage.getItem(themeStorageKey);
+  return storedTheme === "light" ? "light" : "dark";
 }
 
 function toSessionUser(user: StoredUser | AuthUser): AuthUser {
@@ -221,9 +230,13 @@ function ReceiptModal({
 function AuthenticatedApp({
   currentUser,
   onLogout,
+  theme,
+  onToggleTheme,
 }: {
   currentUser: AuthUser;
   onLogout: () => void;
+  theme: ThemeMode;
+  onToggleTheme: () => void;
 }) {
   const [activeView, setActiveView] = useState<ViewId>("dashboard");
   const [transactions, setTransactions] = useState<Transaction[]>(
@@ -554,46 +567,57 @@ function AuthenticatedApp({
           ))}
         </nav>
 
-        <div className={`status-card ${scaleActive ? "online" : "offline"}`}>
-          <Icon
-            name={scaleActive ? "wifi" : "wifiOff"}
-            className="status-icon"
-          />
-          <div>
-            <strong>
-              {scaleActive ? "Báscula Activa" : "Báscula Inactiva"}
-            </strong>
-            <span>{scaleActive ? "Conectada" : "Sin conexión"}</span>
-          </div>
-        </div>
-
-        <div className="session-card">
-          <span className="session-label">Operador autenticado</span>
-          <strong>{currentUser.fullName}</strong>
-          <span>{currentUser.document}</span>
-          <span>{currentUser.email}</span>
-        </div>
-
-        <div className="sidebar-footer">
-          <p>Versión 1.0.0</p>
-          <p>SuperServicios Compliant</p>
-          <div className="footer-view-actions">
-            {footerNavigation.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={`footer-nav-button ${activeView === item.id ? "active" : ""}`}
-                onClick={() => setActiveView(item.id)}
-              >
-                <Icon name={item.icon} className="nav-icon" />
-                {item.name}
-              </button>
-            ))}
-          </div>
-          <button className="logout-button" type="button" onClick={onLogout}>
-            <Icon name="logout" className="nav-icon" />
-            Cerrar sesión
+        <div className="sidebar-bottom">
+          <button
+            className="theme-toggle-button"
+            type="button"
+            onClick={onToggleTheme}
+          >
+            <Icon name={theme === "dark" ? "sun" : "moon"} className="nav-icon" />
+            {theme === "dark" ? "Modo claro" : "Modo oscuro"}
           </button>
+
+          <div className={`status-card ${scaleActive ? "online" : "offline"}`}>
+            <Icon
+              name={scaleActive ? "wifi" : "wifiOff"}
+              className="status-icon"
+            />
+            <div>
+              <strong>
+                {scaleActive ? "Báscula Activa" : "Báscula Inactiva"}
+              </strong>
+              <span>{scaleActive ? "Conectada" : "Sin conexión"}</span>
+            </div>
+          </div>
+
+          <div className="session-card">
+            <span className="session-label">Operador autenticado</span>
+            <strong>{currentUser.fullName}</strong>
+            <span>{currentUser.document}</span>
+            <span>{currentUser.email}</span>
+          </div>
+
+          <div className="sidebar-footer">
+            <p>Versión 1.0.0</p>
+            <p>SuperServicios Compliant</p>
+            <div className="footer-view-actions">
+              {footerNavigation.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`footer-nav-button ${activeView === item.id ? "active" : ""}`}
+                  onClick={() => setActiveView(item.id)}
+                >
+                  <Icon name={item.icon} className="nav-icon" />
+                  {item.name}
+                </button>
+              ))}
+            </div>
+            <button className="logout-button" type="button" onClick={onLogout}>
+              <Icon name="logout" className="nav-icon" />
+              Cerrar sesión
+            </button>
+          </div>
         </div>
       </aside>
 
@@ -875,6 +899,7 @@ function AuthScreen({
 }
 
 function App() {
+  const [theme, setTheme] = useState<ThemeMode>(readStoredTheme);
   const [authMode, setAuthMode] = useState<AuthMode>("login");
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(
     readStoredSession,
@@ -887,6 +912,12 @@ function App() {
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerPasswordConfirm, setRegisterPasswordConfirm] = useState("");
   const [authError, setAuthError] = useState("");
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    localStorage.setItem(themeStorageKey, theme);
+  }, [theme]);
 
   const clearAuthForm = () => {
     setLoginDocument("");
@@ -1000,8 +1031,19 @@ function App() {
     setAuthError("");
   };
 
+  const toggleTheme = () => {
+    setTheme((current) => (current === "dark" ? "light" : "dark"));
+  };
+
   if (currentUser) {
-    return <AuthenticatedApp currentUser={currentUser} onLogout={handleLogout} />;
+    return (
+      <AuthenticatedApp
+        currentUser={currentUser}
+        onLogout={handleLogout}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
+    );
   }
 
   return (
