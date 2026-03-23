@@ -248,6 +248,12 @@ function AuthenticatedApp({
   const [printPreview, setPrintPreview] = useState(false);
   const { notices, pushNotice } = useNotices();
   const scaleActive = true;
+  const mainNavigation = navigation.filter(
+    (item) => item.id !== "dashboard" && item.id !== "reportes",
+  );
+  const footerNavigation = navigation.filter(
+    (item) => item.id === "dashboard" || item.id === "reportes",
+  );
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(transactions));
@@ -535,7 +541,7 @@ function AuthenticatedApp({
         </div>
 
         <nav className="nav-list" aria-label="Navegación principal">
-          {navigation.map((item) => (
+          {mainNavigation.map((item) => (
             <button
               key={item.id}
               type="button"
@@ -571,6 +577,19 @@ function AuthenticatedApp({
         <div className="sidebar-footer">
           <p>Versión 1.0.0</p>
           <p>SuperServicios Compliant</p>
+          <div className="footer-view-actions">
+            {footerNavigation.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`footer-nav-button ${activeView === item.id ? "active" : ""}`}
+                onClick={() => setActiveView(item.id)}
+              >
+                <Icon name={item.icon} className="nav-icon" />
+                {item.name}
+              </button>
+            ))}
+          </div>
           <button className="logout-button" type="button" onClick={onLogout}>
             <Icon name="logout" className="nav-icon" />
             Cerrar sesión

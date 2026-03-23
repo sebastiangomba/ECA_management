@@ -305,13 +305,19 @@
   font-size: 0.78rem;
 }
 
+.footer-view-actions {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.footer-nav-button,
 .logout-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.65rem;
   width: 100%;
-  margin-top: 1rem;
   padding: 0.85rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 1rem;
@@ -320,9 +326,21 @@
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 180ms ease, border-color 180ms ease;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
 }
 
+.footer-nav-button.active {
+  border-color: rgba(87, 214, 111, 0.45);
+  background: rgba(27, 94, 32, 0.86);
+  color: #fff;
+}
+
+.logout-button {
+  margin-top: 1rem;
+}
+
+.footer-nav-button:hover,
+.footer-nav-button:focus-visible,
 .logout-button:hover,
 .logout-button:focus-visible {
   border-color: rgba(87, 214, 111, 0.45);
