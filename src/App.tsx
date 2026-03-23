@@ -545,6 +545,10 @@ function AuthenticatedApp({
     pushNotice("success", "CSV de transacciones exportado.");
   };
 
+  const openPqrsForm = () => {
+    window.open("/pqrs-form.html", "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -680,7 +684,12 @@ function AuthenticatedApp({
         ) : null}
       </main>
 
-      <button className="floating-button" type="button" aria-label="PQR">
+      <button
+        className="floating-button"
+        type="button"
+        aria-label="Abrir formulario PQRS"
+        onClick={openPqrsForm}
+      >
         <Icon name="message" />
       </button>
 

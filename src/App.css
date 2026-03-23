@@ -175,6 +175,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   background: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
   backdrop-filter: blur(12px);
@@ -1410,6 +1411,7 @@
   .sidebar {
     position: sticky;
     top: 0;
+    min-height: auto;
     z-index: 20;
   }
 
