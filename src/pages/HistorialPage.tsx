@@ -19,11 +19,13 @@ export function HistorialPage() {
   const [searchQuery, setSearchQuery]   = useState('');
   const [filterDate,  setFilterDate]    = useState('all');
 
-  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Cargar ingresos con debounce en búsqueda
   useEffect(() => {
-    clearTimeout(searchTimeoutRef.current);
+    if (searchTimeoutRef.current !== null) {
+      clearTimeout(searchTimeoutRef.current);
+    }
     setLoading(true);
     searchTimeoutRef.current = setTimeout(() => {
       getIngresos({ search: searchQuery || undefined, page })
@@ -38,7 +40,11 @@ export function HistorialPage() {
         })
         .finally(() => setLoading(false));
     }, 400);
-    return () => clearTimeout(searchTimeoutRef.current);
+    return () => {
+      if (searchTimeoutRef.current !== null) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
   }, [searchQuery, page]);
 
   // Filtro por fecha en el cliente (sobre la página actual)

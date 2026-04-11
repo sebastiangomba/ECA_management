@@ -144,12 +144,17 @@ export type CreateIngresoPayload = {
 // ============================================================
 
 export class ApiError extends Error {
+  readonly status: number;
+  readonly data: Record<string, unknown>;
+
   constructor(
-    public readonly status: number,
-    public readonly data: Record<string, unknown>,
+    status: number,
+    data: Record<string, unknown>,
   ) {
     super(`API ${status}`);
     this.name = 'ApiError';
+    this.status = status;
+    this.data = data;
   }
 
   /** Extrae el primer mensaje de error legible para mostrar al usuario. */

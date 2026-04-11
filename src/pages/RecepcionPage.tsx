@@ -303,7 +303,7 @@ export function RecepcionPage({ currentUser, onPushNotice }: RecepcionPageProps)
 
   // ── Estado de búsqueda de recicladores ─────────────────────────────────────
   const [recyclerSearch, setRecyclerSearch] = useState('');
-  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Flujo de sesión ────────────────────────────────────────────────────────
   const [step, setStep]   = useState<IngresoStep>('iniciar');
@@ -340,13 +340,19 @@ export function RecepcionPage({ currentUser, onPushNotice }: RecepcionPageProps)
 
   // Búsqueda de recicladores con debounce
   useEffect(() => {
-    clearTimeout(searchTimeoutRef.current);
+    if (searchTimeoutRef.current !== null) {
+      clearTimeout(searchTimeoutRef.current);
+    }
     searchTimeoutRef.current = setTimeout(() => {
       getRecicladores(recyclerSearch || undefined)
         .then((res) => setRecicladores(res.results))
         .catch(() => onPushNotice('error', 'Error buscando recicladores.'));
     }, 350);
-    return () => clearTimeout(searchTimeoutRef.current);
+    return () => {
+      if (searchTimeoutRef.current !== null) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
   }, [recyclerSearch]);
 
   // Cargar vehículos cuando cambia el reciclador seleccionado
@@ -523,7 +529,7 @@ export function RecepcionPage({ currentUser, onPushNotice }: RecepcionPageProps)
         </div>
         {/* Indicador de pasos */}
         <div className="step-indicator">
-          <span className={`step-dot ${step === 'iniciar'    ? 'active' : step !== 'iniciar'    ? 'done' : ''}`}>1</span>
+          <span className={`step-dot ${step === 'iniciar' ? 'active' : 'done'}`}>1</span>
           <span className="step-line" />
           <span className={`step-dot ${step === 'materiales' ? 'active' : step === 'recibo'     ? 'done' : ''}`}>2</span>
           <span className="step-line" />
