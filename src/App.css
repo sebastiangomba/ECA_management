@@ -1481,3 +1481,274 @@
     bottom: 1rem;
   }
 }
+
+/* ============================================================
+   RECEPCION — FLUJO DE INGRESO
+   ============================================================ */
+
+/* Indicador de pasos */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.step-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--surface-dim, #222);
+  color: var(--text-dim, #888);
+  border: 2px solid var(--border-color, #333);
+}
+.step-dot.active {
+  background: var(--green-500, #22c55e);
+  color: #000;
+  border-color: var(--green-500, #22c55e);
+}
+.step-dot.done {
+  background: var(--green-900, #166534);
+  color: var(--green-300, #86efac);
+  border-color: var(--green-700, #15803d);
+}
+.step-line {
+  width: 1.5rem;
+  height: 2px;
+  background: var(--border-color, #333);
+}
+
+/* Banner de sesión activa */
+.session-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--green-700, #15803d);
+  border-radius: 0.75rem;
+  background: var(--green-900, #14532d);
+  margin-bottom: 1rem;
+}
+.session-banner-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+.session-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--green-500, #22c55e);
+  color: #000;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.session-banner .separator {
+  color: var(--text-dim, #888);
+}
+
+/* Lista de materiales en sesión */
+.materials-list-panel {
+  margin-bottom: 1rem;
+}
+.materials-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.materials-table th,
+.materials-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color, #333);
+}
+.materials-table th {
+  color: var(--text-dim, #888);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+.materials-table td.num,
+.materials-table th.num {
+  text-align: right;
+}
+.materials-table td.warn   { color: var(--amber-400, #fbbf24); }
+.materials-table td.accent { color: var(--green-400, #4ade80); font-weight: 700; }
+.materials-table tfoot td  { border-top: 2px solid var(--border-color, #333); border-bottom: none; }
+.materials-table.compact th,
+.materials-table.compact td { padding: 0.35rem 0.6rem; font-size: 0.82rem; }
+
+.mat-code {
+  display: inline-block;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  background: var(--surface-dim, #2a2a2a);
+  font-size: 0.72rem;
+  font-family: monospace;
+  color: var(--text-dim, #888);
+  margin-right: 0.4rem;
+}
+
+/* Panel final de sesión */
+.finalize-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-color, #333);
+  border-radius: 0.75rem;
+  background: var(--surface-elevated, #1a1a1a);
+  margin-top: 1rem;
+}
+.finalize-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.big-pago {
+  font-size: 1.5rem;
+  color: var(--green-400, #4ade80);
+  font-weight: 800;
+}
+
+/* Recibo ampliado */
+.receipt-wide { max-width: 42rem; }
+.receipt-materials {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin: 0.5rem 0;
+}
+.receipt-materials th,
+.receipt-materials td {
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb44;
+}
+.receipt-materials th { font-weight: 600; color: #888; font-size: 0.75rem; }
+
+/* Checkbox de tarifa */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.checkbox-row input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--green-500, #22c55e);
+}
+
+/* Botones ghost y small */
+.button.ghost {
+  background: transparent;
+  border: 1px solid var(--border-color, #333);
+  color: var(--text-dim, #999);
+}
+.button.ghost:hover { background: var(--surface-dim, #2a2a2a); }
+.button.small {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  min-height: 2rem;
+}
+.button.danger { color: var(--red-400, #f87171); }
+.button.danger:hover { border-color: var(--red-500, #ef4444); }
+
+/* Loading inline */
+.loading-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-dim, #888);
+  font-size: 0.85rem;
+}
+.loading-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 3rem;
+  color: var(--text-dim, #888);
+}
+.field-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-dim, #888);
+  font-size: 0.9rem;
+  padding: 0.6rem 0.85rem;
+}
+
+/* HISTORIAL */
+.status-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.badge-green { background: #14532d; color: #4ade80; }
+.badge-amber { background: #451a03; color: #fbbf24; }
+.badge-gray  { background: #1f2937; color: #9ca3af; }
+
+.history-detail {
+  padding: 0.5rem 0.75rem;
+  background: var(--surface-dim, #1a1a1a);
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  color: var(--text-dim, #888);
+  font-size: 0.9rem;
+}
+
+.count-label {
+  color: var(--text-dim, #888);
+  font-size: 0.85rem;
+  align-self: center;
+}
+
+/* AUTH hint */
+.auth-hint {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-dim, #888);
+}
+
+/* Chart loading / empty */
+.chart-loading,
+.empty-chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 8rem;
+  color: var(--text-dim, #888);
+  gap: 0.5rem;
+}
+
+/* Session role label */
+.session-role {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--surface-dim, #2a2a2a);
+  font-size: 0.72rem;
+  color: var(--text-dim, #888);
+  text-transform: capitalize;
+}

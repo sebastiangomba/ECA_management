@@ -10,6 +10,9 @@ export function formatMoney(value: number) {
   }).format(value);
 }
 
+/** Alias semántico para pagos en COP — mismo formato que formatMoney */
+export const formatCOP = formatMoney;
+
 export function downloadCsv(
   filename: string,
   rows: Array<Array<string | number>>,

@@ -1,90 +1,25 @@
+// Re-exportar tipos de API para uso en componentes
+export type {
+  ApiUser,
+  ApiReciclador,
+  ApiVehiculo,
+  ApiRuta,
+  ApiMaterial,
+  ApiDetalleIngreso,
+  ApiIngreso,
+  ApiDashboardStats,
+} from '../services/api';
+
+// ============================================================
+// NAVEGACIÓN Y VISTAS
+// ============================================================
+
 export type ViewId =
   | "dashboard"
   | "recepcion"
   | "inventario"
   | "reportes"
   | "historial";
-
-export type MaterialType = {
-  code: string;
-  name: string;
-  unit: string;
-};
-
-export type RouteItem = {
-  id: string;
-  name: string;
-  zone: string;
-};
-
-export type Recycler = {
-  id: string;
-  name: string;
-  document: string;
-};
-
-export type Transaction = {
-  id: string;
-  recyclerId: string;
-  recyclerName: string;
-  routeId: string;
-  routeName: string;
-  materialCode: string;
-  materialName: string;
-  weight: number;
-  rejection: number;
-  timestamp: string;
-};
-
-export type InventoryItem = {
-  code: string;
-  name: string;
-  stock: number;
-  unit: string;
-  status: "critical" | "low" | "medium" | "high";
-  lastUpdate: string;
-};
-
-export type Notice = {
-  id: number;
-  type: "success" | "error" | "info";
-  message: string;
-};
-
-export type AuthMode = "login" | "register";
-
-export type StoredUser = {
-  id: string;
-  fullName: string;
-  email: string;
-  document: string;
-  password: string;
-  role: "Operador";
-  createdAt: string;
-};
-
-export type AuthUser = Omit<StoredUser, "password">;
-
-export type BalanceRow = {
-  material: string;
-  ingresado: number;
-  rechazos: number;
-  aprovechado: number;
-};
-
-export type RecyclerPayment = {
-  name: string;
-  tons: number;
-  payments: number;
-  efficiency: number;
-};
-
-export type MassBalanceItem = {
-  month: string;
-  entrada: number;
-  salida: number;
-  rechazo: number;
-};
 
 export type IconName =
   | "dashboard"
@@ -115,7 +50,10 @@ export type IconName =
   | "logout"
   | "idCard"
   | "sun"
-  | "moon";
+  | "moon"
+  | "plus"
+  | "close"
+  | "back";
 
 export type NavigationItem = {
   id: ViewId;
@@ -123,19 +61,68 @@ export type NavigationItem = {
   icon: IconName;
 };
 
+// ============================================================
+// FLUJO DE INGRESO (sesión local en RecepcionPage)
+// ============================================================
+
+/** Un ítem de material dentro de la sesión de ingreso activa */
+export type SessionItem = {
+  /** ID temporal del lado del cliente — para key de React */
+  clientId: string;
+  materialId: string;
+  materialNombre: string;
+  materialCodigo: string;
+  /** precio_kg como número (viene como string del API) */
+  materialPrecioKg: number;
+  pesoTotal: number;
+  pesoRechazado: number;
+  /** pesoTotal - pesoRechazado */
+  pesoRecibido: number;
+  /** true = rechazo por contaminación del generador → reciclador cobra el total */
+  aplicaTarifa: boolean;
+  /** si aplicaTarifa: pesoRecibido, si no: 0 */
+  pesoTarifa: number;
+  /** pesoTarifa × materialPrecioKg */
+  subtotalPago: number;
+};
+
+export type IngresoStep = 'iniciar' | 'materiales' | 'recibo';
+
+// ============================================================
+// NOTIFICACIONES
+// ============================================================
+
+export type Notice = {
+  id: number;
+  type: "success" | "error" | "info";
+  message: string;
+};
+
+// ============================================================
+// AUTH (legacy — mantenido para compatibilidad con AuthScreen)
+// ============================================================
+
+export type AuthMode = "login";
+
+// ============================================================
+// UI HELPERS
+// ============================================================
+
 export type TrendType = "up" | "down" | "neutral";
-
 export type SummaryAccent = "amber" | "green" | "gradient";
-
 export type LegendTone = "incoming" | "outgoing" | "reject" | "violet";
 
-export type DashboardStats = {
-  totalIncoming: number;
-  totalOutgoing: number;
-  totalRejection: number;
-  rejectionPercentage: string;
-  activeRecyclers: number;
-  todayTransactions: number;
+// ============================================================
+// INVENTARIO (aún en mock — sin modelo backend todavía)
+// ============================================================
+
+export type InventoryItem = {
+  code: string;
+  name: string;
+  stock: number;
+  unit: string;
+  status: "critical" | "low" | "medium" | "high";
+  lastUpdate: string;
 };
 
 export type InventoryTotals = {
@@ -143,10 +130,22 @@ export type InventoryTotals = {
   criticalItems: number;
 };
 
-export type HistoryTotals = {
-  totalWeight: number;
-  totalRejection: number;
-  netWeight: number;
+// ============================================================
+// REPORTES (aún en mock)
+// ============================================================
+
+export type BalanceRow = {
+  material: string;
+  ingresado: number;
+  rechazos: number;
+  aprovechado: number;
+};
+
+export type RecyclerPayment = {
+  name: string;
+  tons: number;
+  payments: number;
+  efficiency: number;
 };
 
 export type ReportTotals = {
