@@ -1688,6 +1688,87 @@
   padding: 0.6rem 0.85rem;
 }
 
+/* COMBOBOX RECICLADOR */
+.recycler-combobox {
+  position: relative;
+}
+
+.recycler-combobox input {
+  width: 100%;
+  padding-right: 2.4rem; /* espacio para el check-icon */
+}
+
+.recycler-combobox input.recycler-selected {
+  border-color: rgba(67, 160, 71, 0.7);
+  background: rgba(27, 94, 32, 0.12);
+}
+
+.recycler-check-icon {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--green-300);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.recycler-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.95rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.recycler-dropdown-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.recycler-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  gap: 1rem;
+  transition: background 120ms;
+}
+
+.recycler-option:hover,
+.recycler-option.selected {
+  background: rgba(67, 160, 71, 0.12);
+}
+
+.recycler-option.selected {
+  color: var(--green-300);
+}
+
+.recycler-option-name {
+  font-weight: 600;
+}
+
+.recycler-option-doc {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
 /* HISTORIAL */
 .status-badge {
   display: inline-block;
@@ -1751,4 +1832,167 @@
   font-size: 0.72rem;
   color: var(--text-dim, #888);
   text-transform: capitalize;
+}
+
+/* ── Catálogo de Reportes ──────────────────────────────────────────────────── */
+
+.report-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1rem;
+}
+
+.report-card {
+  background: var(--panel-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  box-shadow: var(--panel-shadow);
+}
+
+.report-card:hover {
+  border-color: var(--green-300);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.report-card:focus-visible {
+  outline: 2px solid var(--green-300);
+  outline-offset: 2px;
+}
+
+.report-card-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--green-300);
+  margin-bottom: 0.25rem;
+}
+
+.report-card-tag {
+  display: inline-block;
+  width: fit-content;
+  background: rgba(246, 196, 83, 0.15);
+  color: var(--amber-300);
+  border-radius: 4px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.1rem;
+}
+
+.report-card-titulo {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.report-card-subtitulo {
+  font-size: 0.76rem;
+  color: var(--green-300);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.report-card-desc {
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  margin: 0.2rem 0 0;
+  line-height: 1.45;
+}
+
+/* Encabezado de reporte activo */
+.report-view-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.report-header-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Panel de configuración de período */
+.report-config-panel {
+  padding: 1.1rem 1.4rem;
+}
+
+.report-config-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.report-config-dates {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.report-date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.report-date-field input[type="date"] {
+  font-size: 0.95rem;
+  padding: 0.55rem 0.85rem;
+  min-width: 160px;
+}
+
+/* Badge de período en la cabecera del reporte */
+.report-periodo-badge {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.15rem 0.65rem;
+  margin-left: 0.25rem;
+}
+
+/* Estado vacío inline en el reporte */
+.empty-state-inline {
+  padding: 2.5rem 1.4rem;
+  color: var(--text-dim);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* CTA cuando aún no se ha generado el reporte */
+.report-empty-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1.4rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.report-empty-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  opacity: 0.35;
 }

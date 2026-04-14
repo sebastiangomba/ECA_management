@@ -1,12 +1,16 @@
-import { type FormEvent, useEffect, useMemo, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 
 import "./App.css";
 import { Icon } from "./components/AppUi";
-import { balanceData, inventoryData, navigation, recyclerPayments, themeStorageKey } from "./data/mockData";
+import {
+  //  inventoryData,
+  navigation,
+  themeStorageKey,
+} from "./data/mockData";
 import { useNotices } from "./hooks/useNotices";
 import { DashboardPage } from "./pages/DashboardPage";
 import { HistorialPage } from "./pages/HistorialPage";
-import { InventarioPage } from "./pages/InventarioPage";
+//import { InventarioPage } from "./pages/InventarioPage";
 import { RecepcionPage } from "./pages/RecepcionPage";
 import { ReportesPage } from "./pages/ReportesPage";
 import {
@@ -17,7 +21,6 @@ import {
   type ApiUser,
 } from "./services/api";
 import type { Notice, ViewId } from "./types/app";
-import { downloadCsv } from "./utils/format";
 
 type ThemeMode = "dark" | "light";
 
@@ -41,13 +44,10 @@ function AuthenticatedApp({
   onToggleTheme: () => void;
 }) {
   const [activeView, setActiveView] = useState<ViewId>("dashboard");
-  const [inventorySearch, setInventorySearch] = useState("");
-  const [inventoryStatus, setInventoryStatus] = useState("all");
-  const [reportPeriod, setReportPeriod] = useState("monthly");
   const [printPreview, setPrintPreview] = useState(false);
   const { notices, pushNotice } = useNotices();
 
-  const scaleActive = true;
+  //const scaleActive = true;
 
   const mainNavigation = navigation.filter(
     (item) => item.id !== "dashboard" && item.id !== "reportes",
@@ -56,56 +56,24 @@ function AuthenticatedApp({
     (item) => item.id === "dashboard" || item.id === "reportes",
   );
 
-  const filteredInventory = useMemo(() => {
-    return inventoryData.filter((item) => {
-      const matchesSearch =
-        item.name.toLowerCase().includes(inventorySearch.toLowerCase()) ||
-        item.code.toLowerCase().includes(inventorySearch.toLowerCase());
-      const matchesStatus =
-        inventoryStatus === "all" || item.status === inventoryStatus;
-      return matchesSearch && matchesStatus;
-    });
-  }, [inventorySearch, inventoryStatus]);
+  // const filteredInventory = useMemo(() => {
+  //   return inventoryData.filter((item) => {
+  //     const matchesSearch =
+  //       item.name.toLowerCase().includes(inventorySearch.toLowerCase()) ||
+  //       item.code.toLowerCase().includes(inventorySearch.toLowerCase());
+  //     const matchesStatus =
+  //       inventoryStatus === "all" || item.status === inventoryStatus;
+  //     return matchesSearch && matchesStatus;
+  //   });
+  // }, [inventorySearch, inventoryStatus]);
 
-  const inventoryTotals = useMemo(() => {
-    const totalStock   = inventoryData.reduce((s, i) => s + i.stock, 0);
-    const criticalItems = inventoryData.filter(
-      (i) => i.status === "critical" || i.status === "low",
-    ).length;
-    return { totalStock, criticalItems };
-  }, []);
-
-  const reportTotals = useMemo(() => {
-    const totalIngresado  = balanceData.reduce((s, i) => s + i.ingresado,  0);
-    const totalRechazos   = balanceData.reduce((s, i) => s + i.rechazos,   0);
-    const totalAprovechado = balanceData.reduce((s, i) => s + i.aprovechado, 0);
-    return {
-      totalIngresado,
-      totalRechazos,
-      totalAprovechado,
-      rejectionPercent: ((totalRechazos / totalIngresado) * 100).toFixed(1),
-    };
-  }, []);
-
-  const exportSui = () => {
-    downloadCsv(`reporte_SUI_${new Date().toISOString().split("T")[0]}.csv`, [
-      ["Código Material", "Material", "Ingresado (kg)", "Rechazos (kg)", "Aprovechado (kg)", "% Rechazo"],
-      ...balanceData.map((item) => [
-        item.material, item.material,
-        item.ingresado, item.rechazos, item.aprovechado,
-        ((item.rechazos / item.ingresado) * 100).toFixed(2),
-      ]),
-    ]);
-    pushNotice("success", "Archivo SUI generado.");
-  };
-
-  const exportPayments = () => {
-    downloadCsv(`resumen_pagos_${new Date().toISOString().split("T")[0]}.csv`, [
-      ["Reciclador", "Toneladas", "Pago (COP)", "Eficiencia (%)"],
-      ...recyclerPayments.map((item) => [item.name, item.tons, item.payments, item.efficiency]),
-    ]);
-    pushNotice("success", "Resumen de pagos exportado.");
-  };
+  // const inventoryTotals = useMemo(() => {
+  //   const totalStock = inventoryData.reduce((s, i) => s + i.stock, 0);
+  //   const criticalItems = inventoryData.filter(
+  //     (i) => i.status === "critical" || i.status === "low",
+  //   ).length;
+  //   return { totalStock, criticalItems };
+  // }, []);
 
   return (
     <div className="app-shell">
@@ -130,23 +98,32 @@ function AuthenticatedApp({
         </nav>
 
         <div className="sidebar-bottom">
-          <button className="theme-toggle-button" type="button" onClick={onToggleTheme}>
-            <Icon name={theme === "dark" ? "sun" : "moon"} className="nav-icon" />
+          <button
+            className="theme-toggle-button"
+            type="button"
+            onClick={onToggleTheme}
+          >
+            <Icon
+              name={theme === "dark" ? "sun" : "moon"}
+              className="nav-icon"
+            />
             {theme === "dark" ? "Modo claro" : "Modo oscuro"}
           </button>
 
-          <div className={`status-card ${scaleActive ? "online" : "offline"}`}>
+          {/* <div className={`status-card ${scaleActive ? "online" : "offline"}`}>
             <Icon name={scaleActive ? "wifi" : "wifiOff"} className="status-icon" />
             <div>
               <strong>{scaleActive ? "Báscula Activa" : "Báscula Inactiva"}</strong>
               <span>{scaleActive ? "Conectada" : "Sin conexión"}</span>
             </div>
-          </div>
+          </div> */}
 
           <div className="session-card">
             <span className="session-label">Operador autenticado</span>
             <strong>{currentUser.nombre}</strong>
-            {currentUser.num_documento ? <span>CC {currentUser.num_documento}</span> : null}
+            {currentUser.num_documento ? (
+              <span>CC {currentUser.num_documento}</span>
+            ) : null}
             <span className="session-role">{currentUser.rol}</span>
           </div>
 
@@ -174,15 +151,13 @@ function AuthenticatedApp({
       </aside>
 
       <main className="main-content">
-        {activeView === "dashboard" ? (
-          <DashboardPage />
-        ) : null}
+        {activeView === "dashboard" ? <DashboardPage /> : null}
 
         {activeView === "recepcion" ? (
           <RecepcionPage currentUser={currentUser} onPushNotice={pushNotice} />
         ) : null}
 
-        {activeView === "inventario" ? (
+        {/* {activeView === "inventario" ? (
           <InventarioPage
             inventoryTotals={inventoryTotals}
             inventorySearch={inventorySearch}
@@ -191,23 +166,16 @@ function AuthenticatedApp({
             onInventorySearchChange={setInventorySearch}
             onInventoryStatusChange={setInventoryStatus}
           />
-        ) : null}
+        ) : null} */}
 
         {activeView === "reportes" ? (
           <ReportesPage
             printPreview={printPreview}
-            reportPeriod={reportPeriod}
-            reportTotals={reportTotals}
             onPrintPreviewChange={setPrintPreview}
-            onReportPeriodChange={setReportPeriod}
-            onExportSui={exportSui}
-            onExportPayments={exportPayments}
           />
         ) : null}
 
-        {activeView === "historial" ? (
-          <HistorialPage />
-        ) : null}
+        {activeView === "historial" ? <HistorialPage /> : null}
       </main>
 
       {/* Botón flotante PQRS */}
@@ -215,7 +183,9 @@ function AuthenticatedApp({
         className="floating-button"
         type="button"
         aria-label="Abrir formulario PQRS"
-        onClick={() => window.open("/pqrs-form.html", "_blank", "noopener,noreferrer")}
+        onClick={() =>
+          window.open("/pqrs-form.html", "_blank", "noopener,noreferrer")
+        }
       >
         <Icon name="message" />
       </button>
@@ -256,7 +226,7 @@ function AuthScreen({
   return (
     <main className="auth-shell">
       <section className="auth-hero">
-        <h1>ECA Zipaquirá</h1>
+        <h1>sisECA</h1>
       </section>
 
       <section className="auth-card panel">
@@ -276,7 +246,7 @@ function AuthScreen({
             <input
               type="text"
               inputMode="numeric"
-              placeholder="Ej. 1047034711"
+              placeholder="xxxxxxxxx"
               value={document}
               onChange={(e) => onDocumentChange(e.target.value)}
               autoComplete="username"
@@ -305,15 +275,20 @@ function AuthScreen({
             disabled={loading}
           >
             {loading ? (
-              <><Icon name="refresh" className="spin" /> Verificando...</>
+              <>
+                <Icon name="refresh" className="spin" /> Verificando...
+              </>
             ) : (
-              <><Icon name="check" /> Entrar al sistema</>
+              <>
+                <Icon name="check" /> Entrar al sistema
+              </>
             )}
           </button>
         </form>
 
         <p className="auth-hint">
-          Demo: documento <strong>1047034711</strong> · contraseña <strong>eca2026dev</strong>
+          Demo: documento <strong>1047034711</strong> · contraseña{" "}
+          <strong>eca2026dev</strong>
         </p>
       </section>
     </main>
@@ -331,8 +306,8 @@ function App() {
   // Campos del formulario de login
   const [loginDocument, setLoginDocument] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [loginError,    setLoginError]    = useState("");
-  const [loginLoading,  setLoginLoading]  = useState(false);
+  const [loginError, setLoginError] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -359,9 +334,10 @@ function App() {
       setLoginDocument("");
       setLoginPassword("");
     } catch (err) {
-      const msg = err instanceof ApiError
-        ? err.userMessage
-        : "No se pudo conectar con el servidor. Verifica que el backend esté activo.";
+      const msg =
+        err instanceof ApiError
+          ? err.userMessage
+          : "No se pudo conectar con el servidor. Verifica que el backend esté activo.";
       setLoginError(msg);
     } finally {
       setLoginLoading(false);

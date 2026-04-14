@@ -115,6 +115,41 @@ export type ApiDashboardStats = {
   }>;
 };
 
+export type ApiReportesData = {
+  periodo: { inicio: string; fin: string };
+  balance_materiales: Array<{
+    material: string;
+    ingresado: number;
+    rechazos: number;
+    aprovechado: number;
+    total_pago: number;
+    num_ingresos: number;
+  }>;
+  pagos_recicladores: Array<{
+    nombre: string;
+    kg_recibido: number;
+    total_pago: number;
+    eficiencia: number;
+    num_ingresos: number;
+  }>;
+  por_ruta: Array<{
+    ruta: string;
+    kg_ingresado: number;
+    kg_rechazado: number;
+    kg_recibido: number;
+    total_pago: number;
+    num_ingresos: number;
+  }>;
+  por_vehiculo: Array<{
+    vehiculo: string;
+    kg_ingresado: number;
+    kg_rechazado: number;
+    kg_recibido: number;
+    total_pago: number;
+    num_ingresos: number;
+  }>;
+};
+
 export type PaginatedResponse<T> = {
   count: number;
   next: string | null;
@@ -352,4 +387,16 @@ export async function getIngresos(params?: {
 
 export async function getDashboardStats(): Promise<ApiDashboardStats> {
   return request<ApiDashboardStats>('/ingresos/stats/');
+}
+
+// ============================================================
+// REPORTES
+// ============================================================
+
+export async function getReportesData(
+  fechaInicio: string,
+  fechaFin: string,
+): Promise<ApiReportesData> {
+  const p = new URLSearchParams({ fecha_inicio: fechaInicio, fecha_fin: fechaFin });
+  return request<ApiReportesData>(`/ingresos/reportes/?${p}`);
 }

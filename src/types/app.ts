@@ -76,13 +76,11 @@ export type SessionItem = {
   materialPrecioKg: number;
   pesoTotal: number;
   pesoRechazado: number;
-  /** pesoTotal - pesoRechazado */
+  /** pesoTotal - pesoRechazado (automático) */
   pesoRecibido: number;
-  /** true = rechazo por contaminación del generador → reciclador cobra el total */
-  aplicaTarifa: boolean;
-  /** si aplicaTarifa: pesoRecibido, si no: 0 */
+  /** kg que aplican para tarifa — ingresado manualmente por el operador */
   pesoTarifa: number;
-  /** pesoTarifa × materialPrecioKg */
+  /** pesoRecibido × materialPrecioKg */
   subtotalPago: number;
 };
 
@@ -130,23 +128,6 @@ export type InventoryTotals = {
   criticalItems: number;
 };
 
-// ============================================================
-// REPORTES (aún en mock)
-// ============================================================
-
-export type BalanceRow = {
-  material: string;
-  ingresado: number;
-  rechazos: number;
-  aprovechado: number;
-};
-
-export type RecyclerPayment = {
-  name: string;
-  tons: number;
-  payments: number;
-  efficiency: number;
-};
 
 export type ReportTotals = {
   totalIngresado: number;

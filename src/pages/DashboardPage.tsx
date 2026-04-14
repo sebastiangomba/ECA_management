@@ -5,19 +5,26 @@
 import { useEffect, useState } from "react";
 
 import { Icon, LegendDot, MetricCard } from "../components/AppUi";
-import { ApiError, getDashboardStats, type ApiDashboardStats } from "../services/api";
+import {
+  ApiError,
+  getDashboardStats,
+  type ApiDashboardStats,
+} from "../services/api";
 import { formatCOP, formatNumber } from "../utils/format";
 
 export function DashboardPage() {
-  const [stats,   setStats]   = useState<ApiDashboardStats | null>(null);
+  const [stats, setStats] = useState<ApiDashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error,   setError]   = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getDashboardStats()
       .then(setStats)
       .catch((err) => {
-        const msg = err instanceof ApiError ? err.userMessage : 'Error cargando estadísticas.';
+        const msg =
+          err instanceof ApiError
+            ? err.userMessage
+            : "Error cargando estadísticas.";
         setError(msg);
       })
       .finally(() => setLoading(false));
@@ -52,15 +59,19 @@ export function DashboardPage() {
       <div className="stats-grid four">
         <MetricCard
           title="Balance de Masa"
-          value={loading ? '—' : `${formatNumber(stats?.total_peso_recibido ?? 0)} kg`}
+          value={
+            loading
+              ? "—"
+              : `${formatNumber(stats?.total_peso_recibido ?? 0)} kg`
+          }
           detail={`De ${formatNumber(stats?.total_peso_entrante ?? 0)} kg ingresados`}
-          trend={stats ? `${stats.total_ingresos} ingresos totales` : ''}
+          trend={stats ? `${stats.total_ingresos} ingresos totales` : ""}
           trendType="up"
           icon="scale"
         />
         <MetricCard
           title="% Rechazo"
-          value={loading ? '—' : `${stats?.porc_rechazo ?? 0}%`}
+          value={loading ? "—" : `${stats?.porc_rechazo ?? 0}%`}
           detail={`${formatNumber(stats?.total_peso_rechazado ?? 0)} kg rechazados`}
           trend="Balance de masas SUI"
           trendType="neutral"
@@ -68,7 +79,7 @@ export function DashboardPage() {
         />
         <MetricCard
           title="Recicladores Activos"
-          value={loading ? '—' : String(stats?.recicladores_activos_mes ?? 0)}
+          value={loading ? "—" : String(stats?.recicladores_activos_mes ?? 0)}
           detail="Con ingresos este mes"
           trend="+3 nuevos este mes"
           trendType="up"
@@ -76,8 +87,10 @@ export function DashboardPage() {
         />
         <MetricCard
           title="Ingresos Hoy"
-          value={loading ? '—' : String(stats?.ingresos_hoy ?? 0)}
-          detail={loading ? '' : `Pago mes: ${formatCOP(stats?.total_pago_mes ?? 0)}`}
+          value={loading ? "—" : String(stats?.ingresos_hoy ?? 0)}
+          detail={
+            loading ? "" : `Pago mes: ${formatCOP(stats?.total_pago_mes ?? 0)}`
+          }
           trend="Transacciones del día"
           trendType="neutral"
           icon="truck"
@@ -103,9 +116,18 @@ export function DashboardPage() {
               {stats.balance_mensual.map((item) => (
                 <div key={item.month} className="bar-group">
                   <div className="bars">
-                    <span className="bar incoming" style={{ height: `${(item.entrada / chartMax) * 100}%` }} />
-                    <span className="bar outgoing" style={{ height: `${(item.salida  / chartMax) * 100}%` }} />
-                    <span className="bar reject"   style={{ height: `${(item.rechazo / chartMax) * 100}%` }} />
+                    <span
+                      className="bar incoming"
+                      style={{ height: `${(item.entrada / chartMax) * 100}%` }}
+                    />
+                    <span
+                      className="bar outgoing"
+                      style={{ height: `${(item.salida / chartMax) * 100}%` }}
+                    />
+                    <span
+                      className="bar reject"
+                      style={{ height: `${(item.rechazo / chartMax) * 100}%` }}
+                    />
                   </div>
                   <span className="bar-label">{item.month}</span>
                 </div>
@@ -118,7 +140,7 @@ export function DashboardPage() {
           <div className="chart-legend">
             <LegendDot tone="incoming" label="Entrante" />
             <LegendDot tone="outgoing" label="Saliente" />
-            <LegendDot tone="reject"   label="Rechazo"  />
+            <LegendDot tone="reject" label="Rechazo" />
           </div>
         </article>
 
@@ -132,17 +154,25 @@ export function DashboardPage() {
           <div className="donut-wrap">
             <div className="donut-chart">
               <div className="donut-center">
-                <strong>{loading ? '—' : formatCOP(stats?.total_pago_mes ?? 0)}</strong>
+                <strong>
+                  {loading ? "—" : formatCOP(stats?.total_pago_mes ?? 0)}
+                </strong>
                 <span>Este mes</span>
               </div>
             </div>
             <div className="distribution-list">
-              {([
-                { label: "Plástico PET",  value: "≈ $900/kg", tone: "incoming" },
-                { label: "Aluminio",      value: "≈ $2500/kg", tone: "outgoing" },
-                { label: "Metal",         value: "≈ $1200/kg", tone: "violet"   },
-                { label: "Cartón/Papel",  value: "≈ $350/kg", tone: "reject"   },
-              ] as const).map((item) => (
+              {(
+                [
+                  {
+                    label: "Plástico PET",
+                    value: "≈ $900/kg",
+                    tone: "incoming",
+                  },
+                  { label: "Aluminio", value: "≈ $2500/kg", tone: "outgoing" },
+                  { label: "Metal", value: "≈ $1200/kg", tone: "violet" },
+                  { label: "Cartón/Papel", value: "≈ $350/kg", tone: "reject" },
+                ] as const
+              ).map((item) => (
                 <div key={item.label} className="distribution-item">
                   <LegendDot tone={item.tone} label={item.label} />
                   <strong>{item.value}</strong>
@@ -152,18 +182,6 @@ export function DashboardPage() {
           </div>
         </article>
       </div>
-
-      <article className="panel alert-panel">
-        <Icon name="warning" className="panel-alert-icon" />
-        <div>
-          <h3>Alerta de Coherencia</h3>
-          <p>
-            Sistema de trazabilidad activo. Todas las transacciones están siendo
-            monitoreadas para garantizar coherencia entre registros físicos y
-            digitales.
-          </p>
-        </div>
-      </article>
     </section>
   );
 }
